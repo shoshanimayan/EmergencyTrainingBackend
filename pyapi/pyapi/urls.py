@@ -23,6 +23,7 @@ urlpatterns = [
     path('createUser', views.add_user),
     path('createExercise', views.add_exercise),
     path('login', views.get_user),
+    path('loginweb', views.get_user_web),
     path('exercises', views.get_exercises),
     path('logout', views.logout),
     path('exercises/<str:e_name>', views.get_exerciseType),

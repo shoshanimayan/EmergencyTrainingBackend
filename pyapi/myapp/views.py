@@ -80,6 +80,33 @@ def get_user(request):
 
     return HttpResponse(response,content_type= 'text/json')
 
+
+@csrf_exempt
+def get_user_web(request):
+    if request.method=='GET':
+        uname=request.GET.get('username')
+        upassword=request.GET.get('password')
+        print(uname)
+        print(upassword)
+        user = authenticate(username=uname, password=upassword)
+
+        if user is not None:
+            login(request, user)
+            all =Exercise.objects.all().filter(userId=request.user)
+            returned=[]
+            for e in all:
+                expanded= [e.name,e.hintsTotal,e.hintsFound,e.time]
+                returned.append(expanded)
+
+            response= json.dumps([{'Success': returned }])
+
+
+        else:
+            response= json.dumps([{'Error': "could not find user"}])
+
+
+    return HttpResponse(response,content_type= 'text/json')
+
 @csrf_exempt
 def get_exercises(request):
     if request.method=='GET':
